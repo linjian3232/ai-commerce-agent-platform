@@ -84,6 +84,30 @@ Core questions:
 - Can `(user_id, status, created_at)` replace `(user_id, created_at)`?
 - How does `ORDER BY` affect index choice?
 
+Knowledge coverage checklist:
+
+- Deeply covered:
+  - N+1 query problem.
+  - Batch query with `IN`.
+  - Composite index order for filtering and sorting.
+  - Basic `EXPLAIN` fields.
+  - Optimizer index choice affected by `ORDER BY`.
+  - Redundant index judgment.
+- Must know, briefly pointed out:
+  - B+ tree index structure.
+  - Clustered index and secondary index.
+  - Covering index and back-to-table.
+  - Index Condition Pushdown.
+  - Index selectivity.
+  - Index maintenance cost on writes.
+- Deferred to later MySQL sections:
+  - Index failure cases.
+  - Prefix index.
+  - LIKE and range query effects.
+  - Function or expression on indexed columns.
+  - Implicit type conversion.
+  - MVCC, locks, gap locks, and next-key locks.
+
 ## Future Stage Mapping
 
 ### Java Basics
