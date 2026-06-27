@@ -115,3 +115,27 @@ BUILD SUCCESS
 ### Next Task
 
 Enter Stage 1.3: optimize order list query N+1 problem and prepare for MySQL index and query analysis.
+
+## Stage 1.3 Preparation - Local Environment Migration
+
+### Goal
+
+Move the project from embedded H2 and project-local Maven cache to a real local development environment.
+
+### Changes
+
+- Replaced H2 runtime dependency with MySQL Connector/J.
+- Changed `application.yml` datasource to local MySQL.
+- Added environment-variable overrides for database URL, username, and password.
+- Changed `work/maven-settings.xml` local repository to `D:\mvnRepository`.
+- Added `outputs/local-environment.md` to record local setup requirements.
+
+### Verification
+
+- MySQL integration tests are pending because MySQL is not installed yet.
+
+### Talking Points
+
+- H2 is good for early bootstrapping, but MySQL is required for realistic index, transaction, lock, and SQL behavior.
+- Local Maven repository should be explicit and consistent across Codex and the user's terminal.
+- Network and filesystem access still need elevated execution in Codex, but the project configuration now targets the user's local environment.
