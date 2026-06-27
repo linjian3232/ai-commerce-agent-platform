@@ -1,0 +1,6 @@
+target/
+work/.m2/
+work/*.log
+.idea/
+*.iml
+
