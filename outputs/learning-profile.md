@@ -20,13 +20,16 @@ You are currently at the stage of being able to complete ordinary Java backend b
 
 ## Learning Rhythm
 
-Each stage follows this loop:
+Each stage follows the half-demo loop:
 
-1. Explain the real business scenario.
-2. Codex builds the base demo.
-3. You complete a key implementation or answer design questions.
-4. Codex reviews the code and gives a knowledge check.
-5. Move to the next stage only after the check passes.
+1. Codex explains the technical goal with a small business context.
+2. Codex provides only a minimal demo, skeleton, interface boundary, or comparison sample.
+3. You complete the core implementation, SQL, test case, or technical analysis.
+4. Codex reviews the result, fixes misunderstandings, and adds deeper technical explanation.
+5. You answer the knowledge check.
+6. Move to the next stage only after the code, scenario, and interview assessment pass.
+
+Codex should not complete the whole feature by default. Full implementation by Codex is reserved for environment setup, dependency configuration, test failure diagnosis, Git operations, and explicit user requests.
 
 ## Assessment Dimensions
 
