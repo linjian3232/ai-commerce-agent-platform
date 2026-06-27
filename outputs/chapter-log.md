@@ -129,13 +129,21 @@ Move the project from embedded H2 and project-local Maven cache to a real local 
 - Added environment-variable overrides for database URL, username, and password.
 - Changed `work/maven-settings.xml` local repository to `D:\mvnRepository`.
 - Added `outputs/local-environment.md` to record local setup requirements.
+- Added test database cleanup before each test case to avoid persistent MySQL data pollution.
 
 ### Verification
 
-- MySQL integration tests are pending because MySQL is not installed yet.
+```text
+mvn -s work/maven-settings.xml test
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0
+BUILD SUCCESS
+```
+
+The command was executed twice consecutively to verify test repeatability.
 
 ### Talking Points
 
 - H2 is good for early bootstrapping, but MySQL is required for realistic index, transaction, lock, and SQL behavior.
 - Local Maven repository should be explicit and consistent across Codex and the user's terminal.
 - Network and filesystem access still need elevated execution in Codex, but the project configuration now targets the user's local environment.
+- Persistent databases require explicit test isolation. Otherwise tests may pass once and fail on later runs because old rows remain in MySQL.
