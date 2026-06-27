@@ -9,6 +9,7 @@ The project now uses a half-demo learning style. The purpose is to train the use
 Codex should:
 
 - Explain the technical goal and why it matters.
+- Connect each section to Java backend interview knowledge points when relevant.
 - Provide minimal demos, skeletons, SQL examples, or boundary definitions.
 - Leave the core implementation, tests, SQL execution, or analysis to the user.
 - Review the user's work with code, scenario, and interview perspectives.
@@ -42,3 +43,5 @@ For MySQL and framework sections, the business scenario is only the background. 
 - Transactions and locks.
 - Test isolation.
 - Engineering tradeoffs.
+
+Each section should also reference `outputs/interview-reference-map.md` to avoid drifting away from common Java backend interview topics.

@@ -26,6 +26,7 @@ C:\Users\Administrator\Documents\Codex\ai-commerce-agent-platform
 重要项目文件：
 - outputs/learning-profile.md：我的能力诊断和学习节奏。
 - outputs/teaching-mode.md：半 Demo 教学规则。
+- outputs/interview-reference-map.md：Java 后端八股知识点对齐地图。
 - outputs/chapter-log.md：章节留痕。
 - outputs/local-environment.md：本机 MySQL 和 Maven 环境说明。
 
@@ -46,6 +47,7 @@ C:\Users\Administrator\Documents\Codex\ai-commerce-agent-platform
 - 阶段 1.2 已完成：订单状态并发控制，pay/ship/cancel 使用数据库条件更新，cancel 支持幂等，已有并发支付测试。
 - 阶段 1.3 已开始：MyBatis 列表查询 N+1 优化。
 - 已完成第一步：listUserOrders 和 listOrdersByStatus 已从 N+1 优化为 2 次 SQL，测试通过。
+- 新增要求：后续每节学习都要参考 outputs/interview-reference-map.md，将项目任务和 Java 后端八股知识点对齐。
 
 当前最新提交：
 451d606 学习规则：采用半Demo教学模式

@@ -138,7 +138,7 @@ public class OrderServiceImpl implements OrderService {
         Map<Long, List<OrderItemEntity>> itemsByOrderId = orderItemMapper.selectList(
                         new LambdaQueryWrapper<OrderItemEntity>()
                                 .in(OrderItemEntity::getOrderId, orderIds)
-                                .orderByAsc(OrderItemEntity::getId)
+                                .orderByAsc(OrderItemEntity::getOrderId, OrderItemEntity::getId)
                 )
                 .stream()
                 .collect(Collectors.groupingBy(OrderItemEntity::getOrderId));

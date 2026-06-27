@@ -36,3 +36,12 @@ Codex should not complete the whole feature by default. Full implementation by C
 1. Code assessment: whether the implementation is reasonable.
 2. Scenario assessment: whether it can handle real business problems.
 3. Interview assessment: whether the principles, risks, and tradeoffs can be explained clearly.
+
+## Weak Points Found During Project Iteration
+
+### 2026-06-27 - Stage 1.3
+
+- Weak point: MySQL composite index replacement and redundancy judgment.
+- Trigger: When comparing `(user_id, created_at)` and `(user_id, status, created_at)`, the initial judgment was that the longer index could replace the shorter one.
+- Correction: A longer composite index does not automatically replace a shorter index if the column order changes the usable prefix for filtering and sorting. `(user_id, status, created_at)` can support queries with `user_id` and `status`, but it cannot fully replace `(user_id, created_at)` for `WHERE user_id = ? ORDER BY created_at DESC` because `status` sits between `user_id` and `created_at`.
+- Follow-up: Strengthen understanding of leftmost prefix, index order, sorting with indexes, redundant indexes, and `EXPLAIN`-based index decisions.

@@ -158,6 +158,7 @@ Optimize order list queries by reducing repeated item queries and practice batch
 
 - Refactored `listUserOrders` to avoid querying order items one order at a time.
 - Refactored `listOrdersByStatus` to reuse the same batch item loading logic.
+- Adjusted batch item query ordering from `ORDER BY id` to `ORDER BY order_id, id` after EXPLAIN comparison.
 - Added `toResponsesWithItems`:
   - Query order list once.
   - Query all order items by `order_id IN (...)` once.
@@ -183,3 +184,24 @@ BUILD SUCCESS
 - The optimized implementation uses two SQL queries regardless of the number of orders.
 - Batch loading with `IN` plus `groupingBy` is a common backend optimization pattern.
 - This optimization prepares the project for later MySQL index and `EXPLAIN` analysis.
+- `ORDER BY` can influence the optimizer's index choice. `ORDER BY order_id, id` better matches the item query than `ORDER BY id`.
+- A longer composite index does not automatically replace a shorter one if column order changes filtering or sorting behavior.
+
+## Learning Rule Update - Interview Knowledge Map
+
+### Goal
+
+Align project-based learning with high-frequency Java backend interview knowledge points.
+
+### Changes
+
+- Added `outputs/interview-reference-map.md`.
+- Selected JavaGuide as the primary interview knowledge map.
+- Added Xiao Lin Coding and Pdai as supplementary references.
+- Updated teaching mode to connect each project section with relevant interview topics.
+
+### Talking Points
+
+- The project remains the main learning vehicle.
+- Interview question maps are used as a checklist, not as a replacement for project practice.
+- Each section should connect code, SQL, or design decisions to interview-level explanation.
