@@ -16,6 +16,8 @@ import com.codex.learning.order.infrastructure.mapper.OrderMapper;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,9 +76,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderEntity> orders = orderMapper.selectList(new LambdaQueryWrapper<OrderEntity>()
                 .eq(OrderEntity::getUserId, userId)
                 .orderByDesc(OrderEntity::getCreatedAt));
-        return orders.stream()
-                .map(order -> toResponse(order, listItems(order.getId())))
-                .toList();
+        return toResponsesWithItems(orders);
     }
 
     @Override
@@ -124,8 +124,27 @@ public class OrderServiceImpl implements OrderService {
                 .eq(OrderEntity::getStatus, orderStatus)
                 .eq(OrderEntity::getUserId, userId)
                 .orderByDesc(OrderEntity::getCreatedAt));
+        return toResponsesWithItems(orders);
+    }
+
+    private List<OrderResponse> toResponsesWithItems(List<OrderEntity> orders) {
+        if (orders.isEmpty()) {
+            return List.of();
+        }
+
+        List<Long> orderIds = orders.stream()
+                .map(OrderEntity::getId)
+                .toList();
+        Map<Long, List<OrderItemEntity>> itemsByOrderId = orderItemMapper.selectList(
+                        new LambdaQueryWrapper<OrderItemEntity>()
+                                .in(OrderItemEntity::getOrderId, orderIds)
+                                .orderByAsc(OrderItemEntity::getId)
+                )
+                .stream()
+                .collect(Collectors.groupingBy(OrderItemEntity::getOrderId));
+
         return orders.stream()
-                .map(order -> toResponse(order, listItems(order.getId())))
+                .map(order -> toResponse(order, itemsByOrderId.getOrDefault(order.getId(), List.of())))
                 .toList();
     }
 

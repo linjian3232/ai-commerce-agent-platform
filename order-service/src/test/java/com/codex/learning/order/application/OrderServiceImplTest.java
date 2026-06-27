@@ -184,6 +184,32 @@ class OrderServiceImplTest {
     }
 
     @Test
+    void shouldQueryUserOrdersWithItems() {
+        OrderResponse firstOrder = orderService.createOrder(new CreateOrderRequest(
+                1008L,
+                "first order",
+                List.of(
+                        new CreateOrderItemRequest(2008L, "Java Book", 1, new BigDecimal("39.90")),
+                        new CreateOrderItemRequest(2009L, "MySQL Book", 2, new BigDecimal("49.90"))
+                )
+        ));
+        OrderResponse secondOrder = orderService.createOrder(new CreateOrderRequest(
+                1008L,
+                "second order",
+                List.of(new CreateOrderItemRequest(2010L, "Redis Book", 1, new BigDecimal("59.90")))
+        ));
+
+        List<OrderResponse> orders = orderService.listUserOrders(1008L);
+
+        assertThat(orders).hasSize(2);
+        assertThat(orders)
+                .extracting(OrderResponse::id)
+                .containsExactly(secondOrder.id(), firstOrder.id());
+        assertThat(orders.get(0).items()).hasSize(1);
+        assertThat(orders.get(1).items()).hasSize(2);
+    }
+
+    @Test
     void shouldRejectShipWhenOrderIsNotPaid() {
         OrderResponse order = orderService.createOrder(new CreateOrderRequest(
                 1005L,

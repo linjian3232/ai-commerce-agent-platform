@@ -147,3 +147,39 @@ The command was executed twice consecutively to verify test repeatability.
 - Local Maven repository should be explicit and consistent across Codex and the user's terminal.
 - Network and filesystem access still need elevated execution in Codex, but the project configuration now targets the user's local environment.
 - Persistent databases require explicit test isolation. Otherwise tests may pass once and fail on later runs because old rows remain in MySQL.
+
+## Stage 1.3 - MyBatis List Query N+1 Optimization
+
+### Goal
+
+Optimize order list queries by reducing repeated item queries and practice batch query plus in-memory grouping.
+
+### Changes
+
+- Refactored `listUserOrders` to avoid querying order items one order at a time.
+- Refactored `listOrdersByStatus` to reuse the same batch item loading logic.
+- Added `toResponsesWithItems`:
+  - Query order list once.
+  - Query all order items by `order_id IN (...)` once.
+  - Group items by `orderId`.
+  - Assemble responses while preserving order list ordering.
+
+### Tests
+
+- Added `shouldQueryUserOrdersWithItems`.
+- Verified multiple orders and multiple items can be correctly assembled after batch loading.
+
+### Verification
+
+```text
+mvn -s work/maven-settings.xml test
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0
+BUILD SUCCESS
+```
+
+### Talking Points
+
+- The previous implementation had an N+1 query problem: one SQL for orders plus one SQL per order for items.
+- The optimized implementation uses two SQL queries regardless of the number of orders.
+- Batch loading with `IN` plus `groupingBy` is a common backend optimization pattern.
+- This optimization prepares the project for later MySQL index and `EXPLAIN` analysis.
